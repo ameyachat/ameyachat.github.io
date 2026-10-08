@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ameya Chaturvedi | Hardware and Embedded Engineering</title>
+<meta name="description" content="Portfolio of Ameya Chaturvedi, Electrical and Computer Engineering at Carnegie Mellon. Sensors, PCBs, and embedded firmware.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b0e0c;
+    --surface: #121712;
+    --surface-2: #182018;
+    --line: #243026;
+    --text: #e8efe9;
+    --muted: #93a396;
+    --accent: #4dff9a;
+    --accent-ink: #04140a;
+    --scope-grid: rgba(77, 255, 154, 0.09);
+    --font-body: "Bricolage Grotesque", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+      --bg: #f3f6f3;
+      --surface: #ffffff;
+      --surface-2: #e9efe9;
+      --line: #d3ddd4;
+      --text: #0f1a12;
+      --muted: #4d5f52;
+      --accent: #0a8f4a;
+      --accent-ink: #ffffff;
+      --scope-grid: rgba(10, 143, 74, 0.12);
+    }
+  }
+
+  :root[data-theme="light"] {
+    --bg: #f3f6f3;
+    --surface: #ffffff;
+    --surface-2: #e9efe9;
+    --line: #d3ddd4;
+    --text: #0f1a12;
+    --muted: #4d5f52;
+    --accent: #0a8f4a;
+    --accent-ink: #ffffff;
+    --scope-grid: rgba(10, 143, 74, 0.12);
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #0b0e0c;
+    --surface: #121712;
+    --surface-2: #182018;
+    --line: #243026;
+    --text: #e8efe9;
+    --muted: #93a396;
+    --accent: #4dff9a;
+    --accent-ink: #04140a;
+    --scope-grid: rgba(77, 255, 154, 0.09);
+  }
+
+  *, *::before, *::after { box-sizing: inherit; }
+
+  html {
+    scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 72px);
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  img, svg, canvas { max-width: 100%; }
+
+  a { color: inherit; }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  .wrap {
+    width: 100%;
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 1.25rem;
+  }
+
+  /* Header */
+  .site-header {
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    z-index: 10;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .site-header .wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 60px;
+    gap: 1rem;
+  }
+
+  .brand {
+    font-weight: 700;
+    text-decoration: none;
+    letter-spacing: -0.01em;
+  }
+
+  .nav {
+    display: flex;
+    gap: 1.25rem;
+  }
+
+  .nav a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.95rem;
+    padding: 0.5rem 0;
+  }
+
+  .nav a:hover { color: var(--text); }
+
+  /* Hero */
+  .hero {
+    padding: 4rem 0 3.5rem;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 2.5rem;
+    align-items: center;
+  }
+
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.9rem;
+    color: var(--muted);
+    border: 1px solid var(--line);
+    background: var(--surface);
+    padding: 0.4rem 0.85rem;
+    border-radius: 999px;
+    margin: 0 0 1.5rem;
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex: none;
+  }
+
+  h1 {
+    font-size: clamp(2.25rem, 5.4vw, 4rem);
+    line-height: 1.04;
+    letter-spacing: -0.03em;
+    font-weight: 700;
+    margin: 0 0 1.25rem;
+    max-width: 16ch;
+  }
+
+  .hero-bio {
+    color: var(--muted);
+    max-width: 52ch;
+    margin: 0 0 2rem;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 46px;
+    padding: 0.7rem 1.35rem;
+    font: inherit;
+    font-weight: 500;
+    text-decoration: none;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+  }
+
+  .btn:hover { border-color: var(--accent); }
+
+  .btn-primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-ink);
+    font-weight: 700;
+  }
+
+  .btn-primary:hover { filter: brightness(1.08); }
+
+  /* Oscilloscope */
+  .scope {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    padding: 0.9rem;
+  }
+
+  .scope canvas {
+    display: block;
+    width: 100%;
+    height: 280px;
+    border-radius: 12px;
+    background: var(--bg);
+  }
+
+  .scope-caption {
+    margin: 0.75rem 0.25rem 0.1rem;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* Sections */
+  .section { padding: 3.5rem 0; }
+
+  .section-head { margin-bottom: 2rem; }
+
+  h2 {
+    font-size: clamp(1.75rem, 3.6vw, 2.5rem);
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+    margin: 0 0 0.6rem;
+  }
+
+  .section-head p {
+    margin: 0;
+    color: var(--muted);
+    max-width: 56ch;
+  }
+
+  h3 {
+    font-size: 1.2rem;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    margin: 0 0 0.6rem;
+  }
+
+  /* Bento */
+  .bento {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1rem;
+  }
+
+  .tile {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 1.5rem;
+  }
+
+  .tile p { margin: 0; color: var(--muted); }
+  .tile p + p { margin-top: 0.8rem; }
+
+  .span-2 { grid-column: span 2; }
+  .span-3 { grid-column: span 3; }
+  .span-4 { grid-column: span 4; }
+
+  .tile-accent {
+    background: var(--surface-2);
+    border-radius: 18px 18px 18px 40px;
+  }
+
+  .tile-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.75rem;
+    color: var(--muted);
+  }
+
+  .tile-list li {
+    padding-left: 1rem;
+    border-left: 2px solid var(--accent);
+  }
+
+  .skill-group + .skill-group { margin-top: 1rem; }
+
+  .skill-name {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+  }
+
+  .big-fact {
+    font-size: 2.4rem;
+    line-height: 1;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--accent);
+    margin: 0 0 0.5rem;
+  }
+
+  /* Chips */
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .chip {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    padding: 0.25rem 0.55rem;
+    border-radius: 6px;
+    border: 1px solid var(--line);
+    background: var(--bg);
+    color: var(--text);
+  }
+
+  /* Projects */
+  .projects {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 1.5rem;
+  }
+
+  .card-kicker {
+    margin: 0 0 0.35rem;
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+
+  .card p { margin: 0 0 1rem; color: var(--muted); }
+
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+    margin: 0 0 1.1rem;
+    padding: 0.85rem 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .metric-value {
+    display: block;
+    font-weight: 700;
+    font-size: 1.25rem;
+    letter-spacing: -0.02em;
+    color: var(--accent);
+  }
+
+  .metric-label {
+    display: block;
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.3;
+  }
+
+  .card .chips { margin-bottom: 1.5rem; }
+
+  .card-action { margin-top: auto; }
+
+  .card-action .btn { width: 100%; }
+
+  /* Contact */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 1rem;
+  }
+
+  .field { margin-bottom: 1rem; }
+
+  label {
+    display: block;
+    font-size: 0.92rem;
+    font-weight: 500;
+    margin-bottom: 0.35rem;
+  }
+
+  input, textarea {
+    width: 100%;
+    font: inherit;
+    color: var(--text);
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 0.7rem 0.85rem;
+  }
+
+  input:focus-visible, textarea:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+    border-color: var(--accent);
+  }
+
+  textarea { min-height: 150px; resize: vertical; }
+
+  .form-note {
+    margin: 0.9rem 0 0;
+    font-size: 0.92rem;
+    color: var(--muted);
+    min-height: 1.4em;
+  }
+
+  .links {
+    display: grid;
+    gap: 0.75rem;
+    margin: 1.25rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .link-row {
+    display: flex;
+    flex-direction: column;
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--bg);
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+
+  .link-row:hover { border-color: var(--accent); }
+
+  .link-label { font-weight: 500; }
+
+  .link-value {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  .site-footer {
+    border-top: 1px solid var(--line);
+    padding: 1.75rem 0 2.5rem;
+    color: var(--muted);
+    font-size: 0.92rem;
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .hero-grid,
+    .contact-grid { grid-template-columns: 1fr; }
+    .projects { grid-template-columns: 1fr; }
+    .span-2, .span-3, .span-4 { grid-column: span 6; }
+    .hero { padding-top: 2.5rem; }
+  }
+
+  @media (max-width: 480px) {
+    .nav { gap: 0.9rem; }
+    .scope canvas { height: 220px; }
+    .metrics { grid-template-columns: 1fr; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="#top">Ameya Chaturvedi</a>
+    <nav class="nav" aria-label="Primary">
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="status"><span class="status-dot" aria-hidden="true"></span>Available Jan to Aug 2027 for hardware and embedded internships</p>
+        <h1 id="hero-title">I build the sensors, boards, and firmware that let machines notice things.</h1>
+        <p class="hero-bio">I am an Electrical and Computer Engineering student at Carnegie Mellon. I take a sensor from breadboard to PCB to working firmware, then check it on the oscilloscope until the numbers agree.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="#projects">View projects</a>
+          <a class="btn" href="#contact">Contact</a>
+        </div>
+      </div>
+
+      <div class="scope">
+        <canvas id="scope-canvas" role="img" aria-label="Animated oscilloscope view of one sound pulse arriving at four microphones, one after another."></canvas>
+        <p class="scope-caption">A sound pulse reaches four microphones a fraction of a millisecond apart. That delay is how HearLink finds where a sound came from.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="about" aria-labelledby="about-title">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="about-title">About</h2>
+        <p>Hardware first, with enough software to make the hardware useful.</p>
+      </div>
+
+      <div class="bento">
+        <article class="tile span-4">
+          <h3>Background</h3>
+          <p>I study Electrical and Computer Engineering at Carnegie Mellon, after a year of Computer Engineering at Purdue. My interest is hardware and embedded systems: projects where a circuit, a firmware loop, and a data pipeline all have to agree with each other.</p>
+          <p>I have built sensors for a Baja SAE race car, a noise-level board for a RoboMaster competition robot, and a wearable that shows deaf users where sounds come from. I am also part of Formula SAE at Carnegie Mellon.</p>
+        </article>
+
+        <article class="tile tile-accent span-2">
+          <h3>This summer</h3>
+          <p>Systems and Autonomy Engineering Intern at Sea Machines Robotics in Boston. I built a Python pipeline that checks radar, AIS, and camera tracks for jumps and spoofing, and I installed and tested an IMU over CAN bus on an autonomous test vessel.</p>
+        </article>
+
+        <article class="tile span-3">
+          <h3>On the bench</h3>
+          <ul class="tile-list">
+            <li>Molded and soldered a Hall effect wheel speed sensor, then verified voltage thresholds and pulse timing on an oscilloscope.</li>
+            <li>Took a noise-level sensor from breadboard to schematic, PCB layout, and soldering, read by an STM32 ADC.</li>
+            <li>Designed buzzer driver PCBs and tracked down a grounding fault during bring-up.</li>
+          </ul>
+        </article>
+
+        <article class="tile span-3">
+          <h3>Skills</h3>
+          <div class="skill-group">
+            <span class="skill-name">Hardware</span>
+            <ul class="chips">
+              <li class="chip">PCB design (EasyEDA)</li>
+              <li class="chip">Schematics</li>
+              <li class="chip">Soldering</li>
+              <li class="chip">Oscilloscope</li>
+              <li class="chip">Multimeter</li>
+            </ul>
+          </div>
+          <div class="skill-group">
+            <span class="skill-name">Embedded and protocols</span>
+            <ul class="chips">
+              <li class="chip">ESP32</li>
+              <li class="chip">STM32</li>
+              <li class="chip">Arduino</li>
+              <li class="chip">Raspberry Pi</li>
+              <li class="chip">FreeRTOS</li>
+              <li class="chip">CAN bus</li>
+              <li class="chip">I2C</li>
+              <li class="chip">I2S</li>
+              <li class="chip">MQTT</li>
+            </ul>
+          </div>
+          <div class="skill-group">
+            <span class="skill-name">Software</span>
+            <ul class="chips">
+              <li class="chip">C</li>
+              <li class="chip">C++</li>
+              <li class="chip">Python</li>
+              <li class="chip">Java</li>
+              <li class="chip">MATLAB</li>
+              <li class="chip">ROS2</li>
+              <li class="chip">Linux</li>
+              <li class="chip">Git</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="tile span-2">
+          <p class="big-fact">4th and 2nd</p>
+          <p>4th in Wearable Tech at StarkHacks and 2nd at the Claude Builders Club Hackathon, both with HearLink.</p>
+        </article>
+
+        <article class="tile span-4">
+          <h3>How I work</h3>
+          <p>I lead hardware architecture decisions on small teams, debug from the oscilloscope up before blaming firmware, and explain sensor data to people who do not spend their days in it. Strengths I lean on: embedded firmware in C and C++, real-time data pipelines, and getting a prototype from bench to something that survives a demo.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="projects" aria-labelledby="projects-title">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="projects-title">Projects</h2>
+        <p>Three builds that show the range: signal processing on a wearable, a wireless sensor network, and vehicle data acquisition.</p>
+      </div>
+
+      <div class="projects">
+
+        <article class="card">
+          <p class="card-kicker">Wearable, built at StarkHacks</p>
+          <h3>HearLink</h3>
+          <p>A necklace for deaf and hard-of-hearing users that listens in 360 degrees. Four microphones locate and classify sounds in real time, then point to them with a display and haptic buzzers.</p>
+          <div class="metrics">
+            <div><span class="metric-value">550 ms</span><span class="metric-label">end-to-end latency</span></div>
+            <div><span class="metric-value">70%</span><span class="metric-label">accuracy over 521 classes</span></div>
+            <div><span class="metric-value">7 deg</span><span class="metric-label">direction error</span></div>
+          </div>
+          <ul class="chips" aria-label="Tech stack">
+            <li class="chip">ESP32-S3</li>
+            <li class="chip">I2S</li>
+            <li class="chip">INMP441</li>
+            <li class="chip">Beamforming</li>
+            <li class="chip">YAMNet</li>
+            <li class="chip">Custom PCBs</li>
+          </ul>
+          <div class="card-action">
+            <a class="btn" href="#contact">Ask about this build</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <p class="card-kicker">Personal project, summer 2026</p>
+          <h3>ThermoMesh</h3>
+          <p>A wireless sensor network that watches temperatures across a data center. Nodes stream readings to a live dashboard. I tested it across a multi-story home, where it found hotspots with no dropped nodes.</p>
+          <ul class="chips" aria-label="Tech stack">
+            <li class="chip">ESP32</li>
+            <li class="chip">FreeRTOS</li>
+            <li class="chip">BME280</li>
+            <li class="chip">I2C</li>
+            <li class="chip">MQTT</li>
+            <li class="chip">InfluxDB</li>
+            <li class="chip">Grafana</li>
+          </ul>
+          <div class="card-action">
+            <a class="btn btn-primary" href="https://github.com/ameyachat/ThermoMesh" target="_blank" rel="noopener noreferrer">View on GitHub</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <p class="card-kicker">Purdue Baja SAE, 2026</p>
+          <h3>Baja SAE data acquisition</h3>
+          <p>Wheel speed sensing for an off-road race car. I molded and soldered a Hall effect sensor on the front wheel assembly, and wrote interrupt-driven firmware that sends RPM over CAN bus to a Raspberry Pi logger.</p>
+          <ul class="chips" aria-label="Tech stack">
+            <li class="chip">Hall effect sensor</li>
+            <li class="chip">Arduino</li>
+            <li class="chip">C++</li>
+            <li class="chip">CAN bus</li>
+            <li class="chip">Raspberry Pi</li>
+            <li class="chip">Oscilloscope</li>
+          </ul>
+          <div class="card-action">
+            <a class="btn" href="#contact">Ask about this build</a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="contact" aria-labelledby="contact-title">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="contact-title">Contact</h2>
+        <p>Hiring for hardware or embedded work in 2027, or want to talk through a build? Send a message.</p>
+      </div>
+
+      <div class="contact-grid">
+        <div class="tile">
+          <form id="contact-form" novalidate>
+            <div class="field">
+              <label for="name">Your name</label>
+              <input id="name" name="name" type="text" autocomplete="name" required>
+            </div>
+            <div class="field">
+              <label for="email">Your email</label>
+              <input id="email" name="email" type="email" autocomplete="email" required>
+            </div>
+            <div class="field">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" required></textarea>
+            </div>
+            <button class="btn btn-primary" type="submit">Send message</button>
+            <p class="form-note" id="form-note" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+
+        <div class="tile">
+          <h3>Find me elsewhere</h3>
+          <p>Email is the fastest way to reach me.</p>
+          <ul class="links">
+            <li><a class="link-row" href="mailto:ameyachat@gmail.com"><span class="link-label">Email</span><span class="link-value">ameyachat@gmail.com</span></a></li>
+            <li><a class="link-row" href="https://www.linkedin.com/in/ameya-chaturvedi" target="_blank" rel="noopener noreferrer"><span class="link-label">LinkedIn</span><span class="link-value">linkedin.com/in/ameya-chaturvedi</span></a></li>
+            <li><a class="link-row" href="https://github.com/ameyachat" target="_blank" rel="noopener noreferrer"><span class="link-label">GitHub</span><span class="link-value">github.com/ameyachat</span></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">Ameya Chaturvedi, Electrical and Computer Engineering at Carnegie Mellon University.</div>
+</footer>
+
+<script>
+  // Oscilloscope: one pulse arriving at four microphones, slightly delayed on each channel.
+  var canvas = document.getElementById("scope-canvas");
+  var ctx = canvas.getContext("2d");
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var cssWidth = 0;
+  var cssHeight = 0;
+
+  function sizeCanvas() {
+    var ratio = window.devicePixelRatio;
+    if (!ratio) {
+      ratio = 1;
+    }
+    cssWidth = canvas.clientWidth;
+    cssHeight = canvas.clientHeight;
+    canvas.width = Math.round(cssWidth * ratio);
+    canvas.height = Math.round(cssHeight * ratio);
+    ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+  }
+
+  function drawScope(seconds) {
+    var styles = getComputedStyle(document.documentElement);
+    var accent = styles.getPropertyValue("--accent").trim();
+    var gridColor = styles.getPropertyValue("--scope-grid").trim();
+    var muted = styles.getPropertyValue("--muted").trim();
+    var channels = 4;
+    var bandHeight = cssHeight / channels;
+    var i;
+    var x;
+    var c;
+
+    ctx.clearRect(0, 0, cssWidth, cssHeight);
+
+    // Graticule
+    ctx.strokeStyle = gridColor;
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    for (i = 1; i < 10; i = i + 1) {
+      ctx.moveTo((cssWidth / 10) * i, 0);
+      ctx.lineTo((cssWidth / 10) * i, cssHeight);
+    }
+    for (i = 1; i < channels; i = i + 1) {
+      ctx.moveTo(0, bandHeight * i);
+      ctx.lineTo(cssWidth, bandHeight * i);
+    }
+    ctx.stroke();
+
+    // Pulse position sweeps left to right, then repeats
+    var pulseCenter = ((seconds * 0.16) % 1.5) - 0.25;
+
+    ctx.font = "11px " + "ui-monospace, Menlo, Consolas, monospace";
+    ctx.textBaseline = "top";
+
+    for (c = 0; c < channels; c = c + 1) {
+      var midY = bandHeight * c + bandHeight / 2;
+      var amplitude = bandHeight * 0.36;
+      var delay = c * 0.05;
+
+      ctx.strokeStyle = accent;
+      ctx.globalAlpha = 1 - c * 0.14;
+      ctx.lineWidth = 1.6;
+      ctx.beginPath();
+
+      for (x = 0; x <= cssWidth; x = x + 2) {
+        var unitX = x / cssWidth;
+        var distance = unitX - pulseCenter - delay;
+        var envelope = Math.exp(-(distance * distance) / (2 * 0.018 * 0.018));
+        var carrier = Math.sin(unitX * 190 + c * 0.6);
+        var noise = Math.sin(unitX * 61 + c * 2.1 + seconds * 3) * 0.05;
+        var y = midY - amplitude * (envelope * carrier + noise);
+        if (x === 0) {
+          ctx.moveTo(x, y);
+        } else {
+          ctx.lineTo(x, y);
+        }
+      }
+      ctx.stroke();
+
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = muted;
+      ctx.fillText("mic " + (c + 1), 8, bandHeight * c + 6);
+    }
+  }
+
+  var startTime = null;
+
+  function frame(timestamp) {
+    if (startTime === null) {
+      startTime = timestamp;
+    }
+    drawScope((timestamp - startTime) / 1000);
+    window.requestAnimationFrame(frame);
+  }
+
+  function startScope() {
+    sizeCanvas();
+    if (reduceMotion) {
+      drawScope(3.2);
+    } else {
+      window.requestAnimationFrame(frame);
+    }
+  }
+
+  window.addEventListener("resize", function () {
+    sizeCanvas();
+    if (reduceMotion) {
+      drawScope(3.2);
+    }
+  });
+
+  startScope();
+
+  // Contact form: opens the visitor's email app with the message filled in.
+  var form = document.getElementById("contact-form");
+  var note = document.getElementById("form-note");
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    var name = document.getElementById("name").value.trim();
+    var email = document.getElementById("email").value.trim();
+    var message = document.getElementById("message").value.trim();
+
+    if (name === "" || email === "" || message === "") {
+      note.textContent = "Fill in your name, email, and message, then send again.";
+      return;
+    }
+
+    if (email.indexOf("@") === -1) {
+      note.textContent = "Enter a valid email address so I can reply.";
+      return;
+    }
+
+    var subject = "Portfolio message from " + name;
+    var body = message + "\n\nFrom: " + name + " (" + email + ")";
+    var link = "mailto:ameyachat@gmail.com?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+
+    note.textContent = "Your email app should open with the message ready to send.";
+    window.location.href = link;
+  });
+</script>
+</body>
+</html>
